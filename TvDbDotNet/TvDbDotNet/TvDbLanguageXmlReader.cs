@@ -8,7 +8,12 @@ namespace TvDbDotNet
 {
     public class TvDbLanguageXmlReader : TvDbXmlReader<TvDbLanguage>
     {
-        public override TvDbLanguage ReadElement(XElement xmlElement)
+        public TvDbLanguageXmlReader()
+            : base("Language")
+        {
+        }
+
+        protected override TvDbLanguage ReadElement(XElement xmlElement)
         {
             TvDbLanguage lang = new TvDbLanguage();
             lang.Id = xmlElement.Element("id").Value;

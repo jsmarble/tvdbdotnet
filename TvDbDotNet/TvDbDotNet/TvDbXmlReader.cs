@@ -22,11 +22,11 @@ namespace TvDbDotNet
             using (StringReader xmlReader = new StringReader(xml))
             {
                 XDocument xDoc = XDocument.Load(xmlReader);
-                var objects = xDoc.Elements(elementName).Select(x => ReadElement(x)).ToList();
+                var objects = xDoc.Descendants(elementName).Select(x => ReadElement(x)).ToList();
                 return objects;
             }
         }
 
-        public abstract T ReadElement(XElement xmlElement);
+        protected abstract T ReadElement(XElement xmlElement);
     }
 }
