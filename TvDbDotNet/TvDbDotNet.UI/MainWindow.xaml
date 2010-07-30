@@ -1,0 +1,26 @@
+﻿<Window x:Class="TvDbDotNet.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525">
+    <Window.Resources>
+        <DataTemplate x:Key="seriesTemplate">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding Path=Name}" Foreground="Black" FontSize="16" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding Path=Overview}" Foreground="DimGray" />
+                </StackPanel>
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="24" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBox Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="seriesSearchTextBox" Text="Search ..." Foreground="DarkGray"
+                 BorderBrush="DimGray" TextChanged="seriesSearchTextBox_TextChanged" LostFocus="seriesSearchTextBox_LostFocus" GotFocus="seriesSearchTextBox_GotFocus" />
+        <ListBox Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="searchResultsListBox" ItemTemplate="{StaticResource seriesTemplate}" AlternationCount="1" />
+    </Grid>
+</Window>
