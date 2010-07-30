@@ -55,6 +55,17 @@ namespace TvDbDotNet.Tests
             Assert.Equal(expected, actual);
         }
 
+        [Fact]
+        public void Invalid_MirrorPath_Does_Not_Throw_Exception()
+        {
+            TvDbMirrorXmlReader reader = new TvDbMirrorXmlReader();
+            string xml = GetSampleXml();
+            xml = xml.Replace("http://thetvdb.com", "invalid mirror path");
+            var mirrors = reader.Read(xml);
+            var mirror = mirrors.First();
+            Assert.Null(mirror.Url);
+        }
+
         private string GetSampleXml()
         {
             return Resources.mirrors;

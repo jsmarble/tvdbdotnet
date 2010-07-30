@@ -2,20 +2,36 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Net;
+using System.IO;
 
 namespace TvDbDotNet
 {
     public class TvDb
     {
+        private static readonly TvDbLanguage DEFAULT_LANGUAGE = new TvDbLanguage("en", "English");
+
         private string apiKey;
+
         private IEnumerable<TvDbMirror> mirrors;
         private IEnumerable<TvDbLanguage> languages;
-        private object syncLock = new object();
+
+        private object mirrorsLock = new object();
+        private object languagesLock = new object();
 
         public TvDb(string apiKey)
         {
             this.ChangeApiKey(apiKey);
         }
+
+        #region Properties
+
+        public TvDbMirror Mirror { get; set; }
+        public TvDbLanguage Language { get; set; }
+
+        #endregion
+
+        #region Methods
 
         public void ChangeApiKey(string apiKey)
         {
@@ -25,6 +41,16 @@ namespace TvDbDotNet
         }
 
         #region Mirrors
+
+        private TvDbMirror GetMirror(TvDbMirrorType type)
+        {
+            TvDbMirror mirror = this.Mirror;
+            if (mirror == null || !mirror.Type.HasFlag(type))
+                mirror = GetRandomMirror(type);
+            if (mirror == null)
+                throw new InvalidOperationException("No mirrors could be found supporting the specific mirror type.");
+            return mirror;
+        }
 
         public TvDbMirror GetRandomMirror(TvDbMirrorType type)
         {
@@ -45,7 +71,7 @@ namespace TvDbDotNet
         {
             if (mirrors == null)
             {
-                lock (syncLock)
+                lock (mirrorsLock)
                 {
                     if (mirrors == null)
                     {
@@ -60,18 +86,32 @@ namespace TvDbDotNet
 
         private string GetMirrorsXml()
         {
-            throw new NotImplementedException();
-        } 
+            TvDbMirror mirror = GetMirror(TvDbMirrorType.Xml);
+            string url = string.Format("http://www.thetvdb.com/{0}/<apikey>/mirrors.xml", this.apiKey);
+            using (WebClient wc = new WebClient())
+            {
+                string xml = wc.DownloadString(url);
+                return xml;
+            }
+        }
 
         #endregion
 
         #region Languages
 
+        public TvDbLanguage GetLanguage()
+        {
+            TvDbLanguage lang = this.Language;
+            if (lang == null)
+                lang = DEFAULT_LANGUAGE;
+            return lang;
+        }
+
         public IEnumerable<TvDbLanguage> GetLanguages()
         {
             if (languages == null)
             {
-                lock (syncLock)
+                lock (languagesLock)
                 {
                     if (languages == null)
                     {
@@ -86,8 +126,75 @@ namespace TvDbDotNet
 
         private string GetLanguagesXml()
         {
-            throw new NotImplementedException();
-        } 
+            TvDbMirror mirror = GetMirror(TvDbMirrorType.Xml);
+            string url = string.Format("{0}api/{1}/languages.xml", mirror.Url, this.apiKey);
+            using (WebClient wc = new WebClient())
+            {
+                string xml = wc.DownloadString(url);
+                return xml;
+            }
+        }
+
+        #endregion
+
+        #region Series Search
+
+        public IEnumerable<TvDbSeriesBase> GetSeries(string name)
+        {
+            string languageXml = GetSeriesSearchXml(name);
+            TvDbSeriesSearchResultsXmlReader xmlReader = new TvDbSeriesSearchResultsXmlReader();
+            var series = xmlReader.Read(languageXml);
+            return series;
+        }
+
+        private string GetSeriesSearchXml(string name)
+        {
+            string url = string.Format("http://www.thetvdb.com/{0}/GetSeries.php?seriesname={1}", this.apiKey, name);
+            using (WebClient wc = new WebClient())
+            {
+                string xml = wc.DownloadString(url);
+                return xml;
+            }
+        }
+
+        #endregion
+
+        #region Series
+
+        public TvDbSeries GetSeries(TvDbSeriesBase seriesBase)
+        {
+            string file = DownloadSeriesZip(seriesBase);
+            string extracted = ExtractZip(file);
+            string xmlFile = Path.Combine(extracted, this.GetLanguage().Abbreviation + ".xml");
+            string xml = File.ReadAllText(xmlFile);
+            TvDbSeriesXmlReader reader = new TvDbSeriesXmlReader();
+            TvDbSeries series = reader.Read(xml);
+            return series;
+        }
+
+        private string DownloadSeriesZip(TvDbSeriesBase seriesBase)
+        {
+            TvDbMirror mirror = GetMirror(TvDbMirrorType.Zip);
+            string url = string.Format("{0}api/{1}/series/{2}/all/{3}.zip", mirror.Url, this.apiKey, seriesBase.Id, this.GetLanguage().Abbreviation);
+            string file = GetSeriesZipPath(seriesBase);
+            using (WebClient wc = new WebClient())
+                wc.DownloadFile(url, file);
+            return file;
+        }
+
+        private string ExtractZip(string path)
+        {
+            string extracted = string.Empty;
+            return extracted;
+        }
+
+        private string GetSeriesZipPath(TvDbSeriesBase seriesBase)
+        {
+            string file = Path.Combine(Path.GetTempPath(), "TvDb", "Series", seriesBase.Name + ".zip");
+            return file;
+        }
+
+        #endregion
 
         #endregion
     }

@@ -46,6 +46,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TvDbSeriesXmlReaderTests.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -71,7 +72,15 @@
     <None Include="Resources\languages.xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\mirrors.xml" />
+    <None Include="Resources\mirrors.xml">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\seriesSearchResults.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\series.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

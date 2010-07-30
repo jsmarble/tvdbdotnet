@@ -17,8 +17,12 @@ namespace TvDbDotNet
         {
             TvDbMirror mirror = new TvDbMirror();
             mirror.Id = xmlElement.Element("id").Value;
-            mirror.Url = new Uri(xmlElement.Element("mirrorpath").Value);
             mirror.Type = (TvDbMirrorType)(int.Parse(xmlElement.Element("typemask").Value));
+
+            string mirrorPath = xmlElement.Element("mirrorpath").Value;
+            if (Uri.IsWellFormedUriString(mirrorPath, UriKind.Absolute))
+                mirror.Url = new Uri(mirrorPath);
+
             return mirror;
         }
     }

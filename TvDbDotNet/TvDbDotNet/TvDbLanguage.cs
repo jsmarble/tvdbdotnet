@@ -7,6 +7,16 @@ namespace TvDbDotNet
 {
     public class TvDbLanguage
     {
+        internal TvDbLanguage()
+        {
+        }
+
+        internal TvDbLanguage(string abbreviation, string name)
+        {
+            this.Abbreviation = abbreviation;
+            this.Name = name;
+        }
+
         public string Id { get; set; }
         public string Abbreviation { get; set; }
         public string Name { get; set; }

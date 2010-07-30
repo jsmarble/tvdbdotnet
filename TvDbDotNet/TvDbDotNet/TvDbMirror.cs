@@ -5,10 +5,10 @@ using System.Text;
 
 namespace TvDbDotNet
 {
-   public class TvDbMirror
+    public class TvDbMirror
     {
-       public string Id { get; internal set; }
-        public Uri Url { get; internal set; }
-        public TvDbMirrorType Type { get; internal set; }
+        public string Id { get; set; }
+        public Uri Url { get; set; }
+        public TvDbMirrorType Type { get; set; }
     }
 }

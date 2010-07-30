@@ -40,6 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TvDbEpisode.cs" />
+    <Compile Include="TvDbEpisodeXmlReader.cs" />
+    <Compile Include="TvDbSeries.cs" />
+    <Compile Include="TvDbSeriesSearchResultsXmlReader.cs" />
     <Compile Include="TvDb.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TvDbLanguage.cs" />
@@ -47,6 +51,8 @@
     <Compile Include="TvDbMirror.cs" />
     <Compile Include="TvDbMirrorType.cs" />
     <Compile Include="TvDbMirrorXmlReader.cs" />
+    <Compile Include="TvDbSeriesBase.cs" />
+    <Compile Include="TvDbSeriesXmlReader.cs" />
     <Compile Include="TvDbXmlReader.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

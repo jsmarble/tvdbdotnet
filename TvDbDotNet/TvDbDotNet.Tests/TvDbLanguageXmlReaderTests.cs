@@ -32,7 +32,7 @@ namespace TvDbDotNet.Tests
             Assert.Equal(expected, actual);
 
             var english = languages.Last();
-            expected = "7";
+            expected = "9";
             actual = english.Id;
             Assert.Equal(expected, actual);
         }
@@ -50,7 +50,7 @@ namespace TvDbDotNet.Tests
             Assert.Equal(expected, actual);
 
             var english = languages.Last();
-            expected = "English";
+            expected = "Norsk";
             actual = english.Name;
             Assert.Equal(expected, actual);
         }
@@ -68,7 +68,7 @@ namespace TvDbDotNet.Tests
             Assert.Equal(expected, actual);
 
             var english = languages.Last();
-            expected = "en";
+            expected = "no";
             actual = english.Abbreviation;
             Assert.Equal(expected, actual);
         }
