@@ -7,11 +7,13 @@ namespace TvDbDotNet
 {
     public class TvDbLanguage
     {
-        internal TvDbLanguage()
+        public static readonly TvDbLanguage DefaultLanguage = new TvDbLanguage("en", "English");
+
+        public TvDbLanguage()
         {
         }
 
-        internal TvDbLanguage(string abbreviation, string name)
+        public TvDbLanguage(string abbreviation, string name)
         {
             this.Abbreviation = abbreviation;
             this.Name = name;
