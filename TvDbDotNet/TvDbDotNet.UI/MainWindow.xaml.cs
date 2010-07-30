@@ -20,7 +20,7 @@ namespace TvDbDotNet.UI
     /// </summary>
     public partial class MainWindow : Window
     {
-        private const string API_KEY = "";
+        private const string API_KEY = "AFC397F804955A85"; //Only for use in TvDbDotNet UI application.
         private bool searching;
         private DispatcherTimer searchTimer;
 
