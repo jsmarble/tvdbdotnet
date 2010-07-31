@@ -96,12 +96,13 @@ namespace TvDbDotNet.Tests.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
         ///&lt;Mirrors&gt;
-        ///    &lt;Mirror&gt;
-        ///        &lt;id&gt;4&lt;/id&gt;
-        ///        &lt;mirrorpath&gt;http://thetvdb.com&lt;/mirrorpath&gt;
-        ///        &lt;typemask&gt;5&lt;/typemask&gt;
-        ///    &lt;/Mirror&gt;
-        ///&lt;/Mirrors&gt;.
+        ///  &lt;Mirror&gt;
+        ///    &lt;id&gt;1&lt;/id&gt;
+        ///    &lt;mirrorpath&gt;http://thetvdb.com&lt;/mirrorpath&gt;
+        ///    &lt;typemask&gt;5&lt;/typemask&gt;
+        ///  &lt;/Mirror&gt;
+        ///&lt;/Mirrors&gt;
+        ///.
         /// </summary>
         internal static string mirrors {
             get {
@@ -131,16 +132,23 @@ namespace TvDbDotNet.Tests.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
         ///&lt;Data&gt;
-        ///    &lt;Series&gt;
-        ///        &lt;seriesid&gt;70851&lt;/seriesid&gt;
-        ///        &lt;language&gt;en&lt;/language&gt;
-        ///        &lt;SeriesName&gt;Stargate Atlantis&lt;/SeriesName&gt;
-        ///        &lt;banner&gt;graphical/70851-g9.jpg&lt;/banner&gt;
-        ///        &lt;Overview&gt;Stargate Atlantis, often abbreviated as SGA, is a Canadian-American military science fiction television series and part of MGM&apos;s Stargate franchise. The show was created by Brad Wright and Robert C. Cooper, as a spin-off series of Stargate SG-1 created by Wrigh [rest of string was truncated]&quot;;.
+        ///&lt;Series&gt;
+        ///&lt;seriesid&gt;70851&lt;/seriesid&gt;
+        ///&lt;language&gt;en&lt;/language&gt;
+        ///&lt;SeriesName&gt;Stargate Atlantis&lt;/SeriesName&gt;
+        ///&lt;banner&gt;graphical/70851-g9.jpg&lt;/banner&gt;
+        ///&lt;Overview&gt;Stargate Atlantis, often abbreviated as SGA, is a Canadian-American military science fiction television series and part of MGM&apos;s Stargate franchise. The show was created by Brad Wright and Robert C. Cooper, as a spin-off series of Stargate SG-1 created by Wright and Jonathan Glassner after the release of Starga [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string seriesSearchResults {
             get {
                 return ResourceManager.GetString("seriesSearchResults", resourceCulture);
+            }
+        }
+        
+        internal static byte[] seriesZip {
+            get {
+                object obj = ResourceManager.GetObject("seriesZip", resourceCulture);
+                return ((byte[])(obj));
             }
         }
     }

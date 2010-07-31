@@ -46,12 +46,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TvDbSeriesXmlReaderTests.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="TvDbSeriesXmlReaderTests.cs" />
     <Compile Include="TvDbMirrorXmlReaderTests.cs" />
     <Compile Include="TvDbLanguageXmlReaderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -65,10 +65,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\seriesZip.zip" />
     <None Include="Resources\languages.xml">
       <SubType>Designer</SubType>
     </None>
