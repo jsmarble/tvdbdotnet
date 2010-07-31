@@ -161,7 +161,7 @@ namespace TvDbDotNet
 
         protected virtual string GetSeriesSearchXml(string name)
         {
-            string url = string.Format("http://www.thetvdb.com/{0}/GetSeries.php?seriesname={1}", this.apiKey, name);
+            string url = string.Format("http://www.thetvdb.com/api/GetSeries.php?seriesname={0}", name);
             using (WebClient wc = new WebClient())
             {
                 string xml = wc.DownloadString(url);

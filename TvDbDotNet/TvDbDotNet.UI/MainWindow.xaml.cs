@@ -40,15 +40,18 @@ namespace TvDbDotNet.UI
 
         private void seriesSearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            searchTimer.Stop();
-            string searchText = seriesSearchTextBox.Text;
-            if (string.IsNullOrEmpty(searchText) || searchText == "Search ...")
+            if (searchTimer != null)
             {
-                if (searchResultsListBox != null)
-                    searchResultsListBox.ItemsSource = null;
+                searchTimer.Stop();
+                string searchText = seriesSearchTextBox.Text;
+                if (string.IsNullOrEmpty(searchText) || searchText == "Search ...")
+                {
+                    if (searchResultsListBox != null)
+                        searchResultsListBox.ItemsSource = null;
+                }
+                else
+                    searchTimer.Start();
             }
-            else
-                searchTimer.Start();
         }
 
         private void seriesSearchTextBox_LostFocus(object sender, RoutedEventArgs e)
@@ -87,11 +90,11 @@ namespace TvDbDotNet.UI
             {
                 searching = false;
                 del.EndInvoke(iar);
-                Application.Current.Dispatcher.Invoke(new Action<IEnumerable<TvDbSeries>>(DisplaySeriesSearchResults), matches);
+                Application.Current.Dispatcher.Invoke(new Action<IEnumerable<TvDbSeriesBase>>(DisplaySeriesSearchResults), matches);
             }), null);
         }
 
-        private void DisplaySeriesSearchResults(IEnumerable<TvDbSeries> series)
+        private void DisplaySeriesSearchResults(IEnumerable<TvDbSeriesBase> series)
         {
             searchResultsListBox.ItemsSource = series;
         }

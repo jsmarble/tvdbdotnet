@@ -19,11 +19,17 @@ namespace TvDbDotNet
             series.Id = xmlElement.Element("id").Value;
             series.Name = xmlElement.Element("SeriesName").Value;
             series.Language = xmlElement.Element("language").Value;
-            series.Overview = xmlElement.Element("Overview").Value;
+            var overviewElement = xmlElement.Element("Overview");
+            if (overviewElement != null)
+                series.Overview = overviewElement.Value;
 
-            DateTime firstAired;
-            if (DateTime.TryParse(xmlElement.Element("FirstAired").Value, out firstAired))
-                series.FirstAired = firstAired;
+            var firstAiredElement = xmlElement.Element("FirstAired");
+            if (firstAiredElement != null)
+            {
+                DateTime firstAired;
+                if (DateTime.TryParse(firstAiredElement.Value, out firstAired))
+                    series.FirstAired = firstAired;
+            }
 
             return series;
         }
