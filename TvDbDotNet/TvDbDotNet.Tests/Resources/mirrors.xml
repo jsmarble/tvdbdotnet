@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Mirrors>
   <Mirror>
-    <id>1</id>
+    <id>4</id>
     <mirrorpath>http://thetvdb.com</mirrorpath>
     <typemask>5</typemask>
   </Mirror>
