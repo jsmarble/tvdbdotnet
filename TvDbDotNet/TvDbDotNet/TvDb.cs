@@ -40,10 +40,10 @@ namespace TvDbDotNet
             this.apiKey = apiKey;
         }
 
-        protected virtual string GetTempPath()
+        public virtual string GetTempPath()
         {
             string path = this.TempPath;
-            
+
             if (!string.IsNullOrEmpty(path))
                 Directory.CreateDirectory(path);
             else
@@ -54,7 +54,7 @@ namespace TvDbDotNet
 
         #region Mirrors
 
-        protected virtual TvDbMirror GetMirror(TvDbMirrorType type)
+        public virtual TvDbMirror GetMirror(TvDbMirrorType type)
         {
             TvDbMirror mirror = this.Mirror;
             if (mirror == null || !mirror.Type.HasFlag(type))
@@ -67,9 +67,14 @@ namespace TvDbDotNet
         public virtual TvDbMirror GetRandomMirror(TvDbMirrorType type)
         {
             var mirrors = GetMirrors(type).ToList();
-            Random rnd = new Random();
-            int index = rnd.Next(0, mirrors.Count - 1);
-            return mirrors[index];
+            if (mirrors.Count > 1)
+            {
+                Random rnd = new Random();
+                int index = rnd.Next(0, mirrors.Count - 1);
+                return mirrors[index];
+            }
+            else
+                return mirrors.FirstOrDefault();
         }
 
         public virtual IEnumerable<TvDbMirror> GetMirrors(TvDbMirrorType type)
@@ -96,15 +101,20 @@ namespace TvDbDotNet
             return mirrors;
         }
 
-        protected virtual string GetMirrorsXml()
+        public virtual string GetMirrorsXml()
         {
-            TvDbMirror mirror = GetMirror(TvDbMirrorType.Xml);
-            string url = string.Format("http://www.thetvdb.com/{0}/<apikey>/mirrors.xml", this.apiKey);
+            string url = GetMirrorsUrl();
             using (WebClient wc = new WebClient())
             {
                 string xml = wc.DownloadString(url);
                 return xml;
             }
+        }
+
+        public virtual string GetMirrorsUrl()
+        {
+            string url = string.Format("http://www.thetvdb.com/api/{0}/mirrors.xml", this.apiKey);
+            return url;
         }
 
         #endregion
@@ -136,15 +146,21 @@ namespace TvDbDotNet
             return languages;
         }
 
-        protected virtual string GetLanguagesXml()
+        public virtual string GetLanguagesXml()
         {
-            TvDbMirror mirror = GetMirror(TvDbMirrorType.Xml);
-            string url = string.Format("{0}api/{1}/languages.xml", mirror.Url, this.apiKey);
+            string url = GetLanguagesUrl();
             using (WebClient wc = new WebClient())
             {
                 string xml = wc.DownloadString(url);
                 return xml;
             }
+        }
+
+        public virtual string GetLanguagesUrl()
+        {
+            TvDbMirror mirror = GetMirror(TvDbMirrorType.Xml);
+            string url = string.Format("{0}api/{1}/languages.xml", mirror.Url, this.apiKey);
+            return url;
         }
 
         #endregion
@@ -159,14 +175,20 @@ namespace TvDbDotNet
             return series;
         }
 
-        protected virtual string GetSeriesSearchXml(string name)
+        public virtual string GetSeriesSearchXml(string name)
         {
-            string url = string.Format("http://www.thetvdb.com/api/GetSeries.php?seriesname={0}", name);
+            string url = GetSeriesSearchUrl(name);
             using (WebClient wc = new WebClient())
             {
                 string xml = wc.DownloadString(url);
                 return xml;
             }
+        }
+
+        public virtual string GetSeriesSearchUrl(string name)
+        {
+            string url = string.Format("http://www.thetvdb.com/api/GetSeries.php?seriesname={0}", name);
+            return url;
         }
 
         #endregion
@@ -184,28 +206,45 @@ namespace TvDbDotNet
             return series;
         }
 
-        protected virtual string DownloadSeriesZip(TvDbSeriesBase seriesBase)
+        public virtual string DownloadSeriesZip(TvDbSeriesBase seriesBase)
+        {
+            string path = GetSeriesZipPath(seriesBase);
+            return this.DownloadSeriesZip(seriesBase, path);
+        }
+
+        public virtual string DownloadSeriesZip(TvDbSeriesBase seriesBase, string path)
+        {
+            if (!File.Exists(path))
+            {
+                string url = GetSeriesZipUrl(seriesBase);
+
+                Directory.CreateDirectory(Path.GetDirectoryName(path));
+                using (WebClient wc = new WebClient())
+                    wc.DownloadFile(url, path);
+            }
+            return path;
+        }
+
+        public virtual string GetSeriesZipUrl(TvDbSeriesBase seriesBase)
         {
             TvDbMirror mirror = GetMirror(TvDbMirrorType.Zip);
             string url = string.Format("{0}api/{1}/series/{2}/all/{3}.zip", mirror.Url, this.apiKey, seriesBase.Id, this.GetLanguage().Abbreviation);
-            string file = GetSeriesZipPath(seriesBase);
-            using (WebClient wc = new WebClient())
-                wc.DownloadFile(url, file);
-            return file;
+            return url;
         }
 
-        protected virtual string ExtractZip(string path)
+        public virtual string ExtractZip(string path)
         {
             string extracted = Path.ChangeExtension(path, null);
             ZipFile zip = ZipFile.Read(path);
-            zip.ExtractAll(extracted);
+            zip.ExtractAll(extracted, ExtractExistingFileAction.OverwriteSilently);
             return extracted;
         }
 
-        protected virtual string GetSeriesZipPath(TvDbSeriesBase seriesBase)
+        public virtual string GetSeriesZipPath(TvDbSeriesBase seriesBase)
         {
-            string file = Path.Combine(GetTempPath(), "TvDb", "Series", seriesBase.Name + ".zip");
-            return file;
+            string file = string.Format("{0} [{1}].zip", seriesBase.Name, this.GetLanguage().Abbreviation);
+            string path = Path.Combine(GetTempPath(), "TvDb", "Series", file);
+            return path;
         }
 
         #endregion

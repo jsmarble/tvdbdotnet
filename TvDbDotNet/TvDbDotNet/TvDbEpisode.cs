@@ -13,7 +13,7 @@ namespace TvDbDotNet
         public int Season { get; set; }
         public DateTime FirstAired { get; set; }
         public IEnumerable<string> GuestStars { get; set; }
-        public string Writer { get; set; }
-        public string Director { get; set; }
+        public IEnumerable<string> Writers { get; set; }
+        public IEnumerable<string> Directors { get; set; }
     }
 }

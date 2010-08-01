@@ -64,6 +64,16 @@ namespace TvDbDotNet.Tests
             Assert.Equal(expected, actual);
         }
 
+        [Fact]
+        public void Actors_Property_Gets_Set_Correctly()
+        {
+            TvDbSeriesXmlReader reader = new TvDbSeriesXmlReader();
+            string xml = GetSampleXml();
+            TvDbSeries series = reader.Read(xml);
+
+            Assert.True(series.Actors.Count() > 2);
+        }
+
         private string GetSampleXml()
         {
             return Resources.series;

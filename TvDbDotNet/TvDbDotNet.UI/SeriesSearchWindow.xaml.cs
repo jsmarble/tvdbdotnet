@@ -18,13 +18,14 @@ namespace TvDbDotNet.UI
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class SeriesSearchWindow : Window
     {
         private const string API_KEY = "AFC397F804955A85"; //Only for use in TvDbDotNet UI application.
         private bool searching;
         private DispatcherTimer searchTimer;
+        private TvDb tvdb = new TvDb(API_KEY);
 
-        public MainWindow()
+        public SeriesSearchWindow()
         {
             InitializeComponent();
 
@@ -83,8 +84,7 @@ namespace TvDbDotNet.UI
             IEnumerable<TvDbSeriesBase> matches = null;
             Action del = new Action(delegate
             {
-                TvDb db = new TvDb(API_KEY);
-                matches = db.GetSeries(name);
+                matches = tvdb.GetSeries(name);
             });
             del.BeginInvoke(new AsyncCallback(delegate(IAsyncResult iar)
             {
@@ -97,6 +97,14 @@ namespace TvDbDotNet.UI
         private void DisplaySeriesSearchResults(IEnumerable<TvDbSeriesBase> series)
         {
             searchResultsListBox.ItemsSource = series;
+        }
+
+        private void searchResultsListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var seriesBase = searchResultsListBox.SelectedItem as TvDbSeriesBase;
+            var series = tvdb.GetSeries(seriesBase);
+            SeriesDisplayWindow window = new SeriesDisplayWindow(series);
+            window.Show();
         }
     }
 }

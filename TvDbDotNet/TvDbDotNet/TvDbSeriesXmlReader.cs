@@ -29,6 +29,18 @@ namespace TvDbDotNet
                 series.Actors = seriesElement.Element("Actors").Value.Split("|".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                 series.IMDbId = seriesElement.Element("IMDB_ID").Value;
                 series.Zap2ItId = seriesElement.Element("zap2it_id").Value;
+
+                var overviewElement = seriesElement.Element("Overview");
+                if (overviewElement != null)
+                    series.Overview = overviewElement.Value;
+
+                var firstAiredElement = seriesElement.Element("FirstAired");
+                if (firstAiredElement != null)
+                {
+                    DateTime firstAired;
+                    if (DateTime.TryParse(firstAiredElement.Value, out firstAired))
+                        series.FirstAired = firstAired;
+                }
             }
             TvDbEpisodeXmlReader episodeReader = new TvDbEpisodeXmlReader();
             series.Episodes = episodeReader.Read(xml);

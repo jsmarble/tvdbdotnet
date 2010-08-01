@@ -18,8 +18,9 @@ namespace TvDbDotNet
             TvDbEpisode episode = new TvDbEpisode();
             episode.Id = xmlElement.Element("id").Value;
             episode.Name = xmlElement.Element("EpisodeName").Value;
-            episode.Director = xmlElement.Element("Director").Value;
-            episode.Writer = xmlElement.Element("Writer").Value;
+            episode.Directors = xmlElement.Element("Director").Value.Split("|".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            episode.Writers = xmlElement.Element("Writer").Value.Split("|".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            episode.GuestStars = xmlElement.Element("GuestStars").Value.Split("|".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
 
             DateTime firstAired;
             if (DateTime.TryParse(xmlElement.Element("FirstAired").Value, out firstAired))
