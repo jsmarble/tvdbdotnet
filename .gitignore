@@ -1,4 +1,12 @@
 bin
 obj
+debug
+release
 *.xml
 *.testresult
+*.user
+*.suo
+*.cache
+*.xml
+TestResults
+thumbs.db
