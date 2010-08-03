@@ -8,5 +8,6 @@ release
 *.suo
 *.cache
 *.xml
+*.txt
 TestResults
 thumbs.db
