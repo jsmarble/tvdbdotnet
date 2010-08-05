@@ -37,8 +37,23 @@ using System.IO;
 
 namespace TvDbDotNet
 {
+    /// <summary>
+    /// Provides a translation from xml to TvDbSeries.
+    /// </summary>
     public class TvDbSeriesXmlReader
     {
+        /// <summary>
+        /// Initializes a new instance of the TvDbSeriesXmlReader class.
+        /// </summary>
+        public TvDbSeriesXmlReader()
+        {
+        }
+
+        /// <summary>
+        /// Translates xml into a TvDbSeries object.
+        /// </summary>
+        /// <param name="xml">The xml to translate.</param>
+        /// <returns>a TvDbSeries object.</returns>
         public TvDbSeries Read(string xml)
         {
             TvDbSeries series = new TvDbSeries();

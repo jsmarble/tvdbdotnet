@@ -36,13 +36,24 @@ using System.Xml.Linq;
 
 namespace TvDbDotNet
 {
+    /// <summary>
+    /// Provides a translation from xml to TvDbMirror.
+    /// </summary>
     public class TvDbMirrorXmlReader : TvDbXmlReader<TvDbMirror>
     {
+        /// <summary>
+        /// Initializes a new instance of the TvDbMirrorXmlReader class.
+        /// </summary>
         public TvDbMirrorXmlReader()
             : base("Mirror")
         {
         }
 
+        /// <summary>
+        /// Reads an XElement into a TvDbMirror object.
+        /// </summary>
+        /// <param name="xml">The XElement to translate.</param>
+        /// <returns>a TvDbMirror object.</returns>
         protected override TvDbMirror ReadElement(XElement xmlElement)
         {
             TvDbMirror mirror = new TvDbMirror();

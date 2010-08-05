@@ -35,10 +35,31 @@ using System.Text;
 
 namespace TvDbDotNet
 {
+    /// <summary>
+    /// Represents a mirror on TvDb.
+    /// </summary>
     public class TvDbMirror
     {
+        /// <summary>
+        /// Initializes a new instance of the TvDbMirror class.
+        /// </summary>
+        public TvDbMirror()
+        {
+        }
+
+        /// <summary>
+        /// Gets or sets the mirror Id.
+        /// </summary>
         public string Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the mirror url.
+        /// </summary>
         public Uri Url { get; set; }
+
+        /// <summary>
+        /// Gets or sets the mirror type.
+        /// </summary>
         public TvDbMirrorType Type { get; set; }
     }
 }

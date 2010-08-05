@@ -35,6 +35,9 @@ using System.Text;
 
 namespace TvDbDotNet
 {
+    /// <summary>
+    /// Represents a mirror type on TvDb.
+    /// </summary>
     [Flags]
     public enum TvDbMirrorType
     {

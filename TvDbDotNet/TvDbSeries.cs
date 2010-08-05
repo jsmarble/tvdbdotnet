@@ -35,18 +35,71 @@ using System.Text;
 
 namespace TvDbDotNet
 {
+    /// <summary>
+    /// Represents a series on TvDb.
+    /// </summary>
     public class TvDbSeries : TvDbSeriesBase
     {
+        /// <summary>
+        /// Initializes a new instance of the TvDbSeries class.
+        /// </summary>
+        public TvDbSeries()
+        {
+        }
+
+        /// <summary>
+        /// Gets or sets the series episodes.
+        /// </summary>
         public IEnumerable<TvDbEpisode> Episodes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the series network.
+        /// </summary>
         public string Network { get; set; }
+
+        /// <summary>
+        /// Gets or sets the series actors.
+        /// </summary>
         public IEnumerable<string> Actors { get; set; }
+
+        /// <summary>
+        /// Gets or sets the series genres.
+        /// </summary>
         public IEnumerable<string> Genres { get; set; }
+
+        /// <summary>
+        /// Gets or sets the series status.
+        /// </summary>
         public string Status { get; set; }
+
+        /// <summary>
+        /// Gets or sets the series runtime in minutes.
+        /// </summary>
         public string Runtime { get; set; }
+
+        /// <summary>
+        /// Gets or sets the series rating.
+        /// </summary>
         public string Rating { get; set; }
+
+        /// <summary>
+        /// Gets or sets the series air time.
+        /// </summary>
         public string AirTime { get; set; }
+
+        /// <summary>
+        /// Gets or sets the series air day.
+        /// </summary>
         public string AirDay { get; set; }
+
+        /// <summary>
+        /// Gets or sets the series IMDB Id.
+        /// </summary>
         public string IMDbId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the series Zap2It Id.
+        /// </summary>
         public string Zap2ItId { get; set; }
     }
 }

@@ -38,15 +38,27 @@ using System.Xml;
 
 namespace TvDbDotNet
 {
+    /// <summary>
+    /// Provides a translation from xml to T.
+    /// </summary>
     public abstract class TvDbXmlReader<T>
     {
         private string elementName;
 
+        /// <summary>
+        /// Constructs a new instance of the TvDbXmlReader class.
+        /// </summary>
+        /// <param name="elementName">The name of the elements from which the objects will be populated.</param>
         public TvDbXmlReader(string elementName)
         {
             this.elementName = elementName;
         }
 
+        /// <summary>
+        /// Translates xml into a collection of T.
+        /// </summary>
+        /// <param name="xml">The xml to translate.</param>
+        /// <returns>a collection of T.</returns>
         public IEnumerable<T> Read(string xml)
         {
             using (StringReader xmlReader = new StringReader(xml))
@@ -57,6 +69,11 @@ namespace TvDbDotNet
             }
         }
 
+        /// <summary>
+        /// Reads an XElement into an object.
+        /// </summary>
+        /// <param name="xml">The XElement to translate.</param>
+        /// <returns>a populated object.</returns>
         protected abstract T ReadElement(XElement xmlElement);
     }
 }

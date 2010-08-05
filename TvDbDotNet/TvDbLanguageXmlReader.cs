@@ -36,13 +36,24 @@ using System.Xml.Linq;
 
 namespace TvDbDotNet
 {
+    /// <summary>
+    /// Provides a translation from xml to TvDbLanguage.
+    /// </summary>
     public class TvDbLanguageXmlReader : TvDbXmlReader<TvDbLanguage>
     {
+        /// <summary>
+        /// Initializes a new instance of the TvDbLanguageXmlReader class.
+        /// </summary>
         public TvDbLanguageXmlReader()
             : base("Language")
         {
         }
 
+        /// <summary>
+        /// Reads an XElement into a TvDbLanguage object.
+        /// </summary>
+        /// <param name="xml">The XElement to translate.</param>
+        /// <returns>a TvDbLanguage object.</returns>
         protected override TvDbLanguage ReadElement(XElement xmlElement)
         {
             TvDbLanguage lang = new TvDbLanguage();

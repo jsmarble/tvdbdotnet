@@ -35,15 +35,56 @@ using System.Text;
 
 namespace TvDbDotNet
 {
+    /// <summary>
+    /// Represents a series episode on TvDb.
+    /// </summary>
     public class TvDbEpisode
     {
+        /// <summary>
+        /// Initializes a new instance of the TvDbEpisode class.
+        /// </summary>
+        public TvDbEpisode()
+        {
+        }
+
+        /// <summary>
+        /// Gets or sets the episode Id.
+        /// </summary>
         public string Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the episode name.
+        /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the episode number.
+        /// </summary>
         public int Number { get; set; }
+
+        /// <summary>
+        /// Gets or sets the episode season.
+        /// </summary>
         public int Season { get; set; }
+
+        /// <summary>
+        /// Gets or sets the episode first aired date.
+        /// </summary>
         public DateTime FirstAired { get; set; }
+
+        /// <summary>
+        /// Gets or sets the episode guest stars.
+        /// </summary>
         public IEnumerable<string> GuestStars { get; set; }
+
+        /// <summary>
+        /// Gets or sets the episode writers.
+        /// </summary>
         public IEnumerable<string> Writers { get; set; }
+
+        /// <summary>
+        /// Gets or sets the episode directors.
+        /// </summary>
         public IEnumerable<string> Directors { get; set; }
     }
 }

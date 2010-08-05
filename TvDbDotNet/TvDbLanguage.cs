@@ -35,22 +35,45 @@ using System.Text;
 
 namespace TvDbDotNet
 {
+    /// <summary>
+    /// Represents a language on TvDb.
+    /// </summary>
     public class TvDbLanguage
     {
+        /// <summary>
+        /// The default language, English (en).
+        /// </summary>
         public static readonly TvDbLanguage DefaultLanguage = new TvDbLanguage("en", "English");
 
+        /// <summary>
+        /// Initializes a new instance of the TvDbLanguage class.
+        /// </summary>
         public TvDbLanguage()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the TvDbLanguage class, setting the abbreviation and name as specified.
+        /// </summary>
         public TvDbLanguage(string abbreviation, string name)
         {
             this.Abbreviation = abbreviation;
             this.Name = name;
         }
 
+        /// <summary>
+        /// Gets or sets the language Id.
+        /// </summary>
         public string Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the language abbreviation.
+        /// </summary>
         public string Abbreviation { get; set; }
+
+        /// <summary>
+        /// Gets or sets the language name.
+        /// </summary>
         public string Name { get; set; }
     }
 }

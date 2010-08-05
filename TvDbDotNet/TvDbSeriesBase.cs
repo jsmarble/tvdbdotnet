@@ -35,12 +35,41 @@ using System.Text;
 
 namespace TvDbDotNet
 {
+    /// <summary>
+    /// Represents basic series search result information on TvDb.
+    /// </summary>
     public class TvDbSeriesBase
-    {
+    { 
+        /// <summary>
+        /// Initializes a new instance of the TvDbSeriesBase class.
+        /// </summary>
+        public TvDbSeriesBase()
+        {
+        }
+
+        /// <summary>
+        /// Gets or sets the series Id.
+        /// </summary>
         public string Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the series name.
+        /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the series overview.
+        /// </summary>
         public string Overview { get; set; }
+
+        /// <summary>
+        /// Gets or sets the series first aired date.
+        /// </summary>
         public DateTime FirstAired { get; set; }
+
+        /// <summary>
+        /// Gets or sets the series language abbreviation.
+        /// </summary>
         public string Language { get; set; }
     }
 }

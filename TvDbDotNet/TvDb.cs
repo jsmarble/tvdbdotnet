@@ -38,6 +38,9 @@ using Ionic.Zip;
 
 namespace TvDbDotNet
 {
+    /// <summary>
+    /// An interface to some capabilities of the tvdb.com API.
+    /// </summary>
     public class TvDb
     {
         protected string apiKey;
@@ -48,6 +51,10 @@ namespace TvDbDotNet
         private object mirrorsLock = new object();
         private object languagesLock = new object();
 
+        /// <summary>
+        /// Initializes a new instance of the TvDb class using the specified API key.
+        /// </summary>
+        /// <param name="apiKey"></param>
         public TvDb(string apiKey)
         {
             this.ChangeApiKey(apiKey);
@@ -55,14 +62,29 @@ namespace TvDbDotNet
 
         #region Properties
 
+        /// <summary>
+        /// The selected TvDbMirror. If null, api operations will choose a random mirror.
+        /// </summary>
         public virtual TvDbMirror Mirror { get; set; }
+
+        /// <summary>
+        /// The selected TvDbLanguage. If null, api operations will use TvDbLanguage.DefaultLanguage.
+        /// </summary>
         public virtual TvDbLanguage Language { get; set; }
+
+        /// <summary>
+        /// The path used for storage of temporary files, such as downloaded or extracted zip files. If not a valid path, api operations will use the system temp path.
+        /// </summary>
         public virtual string TempPath { get; set; }
 
         #endregion
 
         #region Methods
 
+        /// <summary>
+        /// Changes the tvdb.com API key used.
+        /// </summary>
+        /// <param name="apiKey">The new API key.</param>
         public void ChangeApiKey(string apiKey)
         {
             if (string.IsNullOrEmpty(apiKey))
@@ -70,6 +92,10 @@ namespace TvDbDotNet
             this.apiKey = apiKey;
         }
 
+        /// <summary>
+        /// Gets the temporary path to use.
+        /// </summary>
+        /// <returns>the value of the TempPath property, if a valid path, otherwise the system temp path.</returns>
         public virtual string GetTempPath()
         {
             string path = this.TempPath;
@@ -84,6 +110,11 @@ namespace TvDbDotNet
 
         #region Mirrors
 
+        /// <summary>
+        /// Gets a mirror that supports the specified type.
+        /// </summary>
+        /// <param name="type">The type the mirror should support.</param>
+        /// <returns>the value of the Mirror property, if not null and supporting the specified type, otherwise a random mirror from the mirrors list.</returns>
         public virtual TvDbMirror GetMirror(TvDbMirrorType type)
         {
             TvDbMirror mirror = this.Mirror;
@@ -94,6 +125,11 @@ namespace TvDbDotNet
             return mirror;
         }
 
+        /// <summary>
+        /// Gets a random mirror from the mirrors list, supporting the specified type.
+        /// </summary>
+        /// <param name="type">The type the mirror should support.</param>
+        /// <returns>a TvDbMirror object.</returns>
         public virtual TvDbMirror GetRandomMirror(TvDbMirrorType type)
         {
             var mirrors = GetMirrors(type).ToList();
@@ -107,6 +143,11 @@ namespace TvDbDotNet
                 return mirrors.FirstOrDefault();
         }
 
+        /// <summary>
+        /// Gets the list of mirrors from TvDb, supporting the specified type.
+        /// </summary>
+        /// <param name="type">The type the mirror should support.</param>
+        /// <returns>a collection of TvDbMirror objects.</returns>
         public virtual IEnumerable<TvDbMirror> GetMirrors(TvDbMirrorType type)
         {
             var mirrors = GetMirrors();
@@ -114,6 +155,10 @@ namespace TvDbDotNet
             return mirrors;
         }
 
+        /// <summary>
+        /// Gets the list of mirrors from TvDb.
+        /// </summary>
+        /// <returns>a collection of TvDbMirror objects.</returns>
         public virtual IEnumerable<TvDbMirror> GetMirrors()
         {
             if (mirrors == null)
@@ -131,6 +176,10 @@ namespace TvDbDotNet
             return mirrors;
         }
 
+        /// <summary>
+        /// Gets the mirrors xml from TvDb.
+        /// </summary>
+        /// <returns>the mirrors xml.</returns>
         public virtual string GetMirrorsXml()
         {
             string url = GetMirrorsUrl();
@@ -141,6 +190,10 @@ namespace TvDbDotNet
             }
         }
 
+        /// <summary>
+        /// Gets the url for the mirrors xml from TvDb.
+        /// </summary>
+        /// <returns>the mirrors url.</returns>
         public virtual string GetMirrorsUrl()
         {
             string url = string.Format("http://www.thetvdb.com/api/{0}/mirrors.xml", this.apiKey);
@@ -151,6 +204,10 @@ namespace TvDbDotNet
 
         #region Languages
 
+        /// <summary>
+        /// Gets the desired language.
+        /// </summary>
+        /// <returns>the value of the Language property, if not null, otherwise TvDbLanguage.DefaultLanguage.</returns>
         public virtual TvDbLanguage GetLanguage()
         {
             TvDbLanguage lang = this.Language;
@@ -159,6 +216,10 @@ namespace TvDbDotNet
             return lang;
         }
 
+        /// <summary>
+        /// Gets the list of languages from TvDb.
+        /// </summary>
+        /// <returns>a collection of TvDbLanguage objects.</returns>
         public virtual IEnumerable<TvDbLanguage> GetLanguages()
         {
             if (languages == null)
@@ -176,6 +237,10 @@ namespace TvDbDotNet
             return languages;
         }
 
+        /// <summary>
+        /// Gets the languages xml from TvDb.
+        /// </summary>
+        /// <returns>the languages xml.</returns>
         public virtual string GetLanguagesXml()
         {
             string url = GetLanguagesUrl();
@@ -186,6 +251,10 @@ namespace TvDbDotNet
             }
         }
 
+        /// <summary>
+        /// Gets the url for the languages xml from TvDb.
+        /// </summary>
+        /// <returns>the languages url.</returns>
         public virtual string GetLanguagesUrl()
         {
             TvDbMirror mirror = GetMirror(TvDbMirrorType.Xml);
@@ -197,6 +266,11 @@ namespace TvDbDotNet
 
         #region Series Search
 
+        /// <summary>
+        /// Gets series by name.
+        /// </summary>
+        /// <param name="name">The series name.</param>
+        /// <returns>a collection of TvDbSeriesBase objects.</returns>
         public virtual IEnumerable<TvDbSeriesBase> GetSeries(string name)
         {
             string languageXml = GetSeriesSearchXml(name);
@@ -205,6 +279,10 @@ namespace TvDbDotNet
             return series;
         }
 
+        /// <summary>
+        /// Gets the series search xml from TvDb.
+        /// </summary>
+        /// <returns>the series search xml.</returns>
         public virtual string GetSeriesSearchXml(string name)
         {
             string url = GetSeriesSearchUrl(name);
@@ -215,6 +293,10 @@ namespace TvDbDotNet
             }
         }
 
+        /// <summary>
+        /// Gets the url for the series search xml from TvDb.
+        /// </summary>
+        /// <returns>the series search url.</returns>
         public virtual string GetSeriesSearchUrl(string name)
         {
             string url = string.Format("http://www.thetvdb.com/api/GetSeries.php?seriesname={0}", name);
@@ -225,6 +307,11 @@ namespace TvDbDotNet
 
         #region Series
 
+        /// <summary>
+        /// Gets the full series information for the specified TvDbSeriesBase.
+        /// </summary>
+        /// <param name="seriesBase">The base series.</param>
+        /// <returns>a TvDbSeries object.</returns>
         public virtual TvDbSeries GetSeries(TvDbSeriesBase seriesBase)
         {
             string file = DownloadSeriesZip(seriesBase);
@@ -236,12 +323,23 @@ namespace TvDbDotNet
             return series;
         }
 
+        /// <summary>
+        /// Downloads the series zip file for the specified TvDbSeriesBase.
+        /// </summary>
+        /// <param name="seriesBase">The base series.</param>
+        /// <returns>the path to the downloaded zip file.</returns>
         public virtual string DownloadSeriesZip(TvDbSeriesBase seriesBase)
         {
             string path = GetSeriesZipPath(seriesBase);
             return this.DownloadSeriesZip(seriesBase, path);
         }
 
+        /// <summary>
+        /// Downloads the series zip file for the specified TvDbSeriesBase.
+        /// </summary>
+        /// <param name="seriesBase">The base series.</param>
+        /// <param name="path">The path to which to download the zip file.</param>
+        /// <returns>the path to the downloaded zip file.</returns>
         public virtual string DownloadSeriesZip(TvDbSeriesBase seriesBase, string path)
         {
             if (!File.Exists(path))
@@ -255,6 +353,10 @@ namespace TvDbDotNet
             return path;
         }
 
+        /// <summary>
+        /// Gets the url for the series zip file from TvDb.
+        /// </summary>
+        /// <returns>the series zip url.</returns>
         public virtual string GetSeriesZipUrl(TvDbSeriesBase seriesBase)
         {
             TvDbMirror mirror = GetMirror(TvDbMirrorType.Zip);
@@ -262,6 +364,11 @@ namespace TvDbDotNet
             return url;
         }
 
+        /// <summary>
+        /// Extract the zip file at the specified path.
+        /// </summary>
+        /// <param name="path">The path of the zip file.</param>
+        /// <returns>the path to the extracted files.</returns>
         public virtual string ExtractZip(string path)
         {
             string extracted = Path.ChangeExtension(path, null);
@@ -270,6 +377,11 @@ namespace TvDbDotNet
             return extracted;
         }
 
+        /// <summary>
+        /// Generates a zip file path based on the temp path and specified TvDbSeriesBase.
+        /// </summary>
+        /// <param name="seriesBase">The series.</param>
+        /// <returns>a generated file path.</returns>
         public virtual string GetSeriesZipPath(TvDbSeriesBase seriesBase)
         {
             string file = string.Format("{0} [{1}].zip", seriesBase.Name, this.GetLanguage().Abbreviation);
