@@ -65,6 +65,10 @@ namespace TvDbDotNet
             episode.Writers = xmlElement.Element("Writer").Value.Split("|".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
             episode.GuestStars = xmlElement.Element("GuestStars").Value.Split("|".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
 
+            int number;
+            if (int.TryParse(xmlElement.Element("EpisodeNumber").Value, out number))
+                episode.Number = number;
+
             int season;
             if (int.TryParse(xmlElement.Element("SeasonNumber").Value, out season))
                 episode.Season = season;
