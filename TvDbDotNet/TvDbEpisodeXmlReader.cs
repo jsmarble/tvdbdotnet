@@ -65,6 +65,10 @@ namespace TvDbDotNet
             episode.Writers = xmlElement.Element("Writer").Value.Split("|".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
             episode.GuestStars = xmlElement.Element("GuestStars").Value.Split("|".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
 
+            int season;
+            if (int.TryParse(xmlElement.Element("SeasonNumber").Value, out season))
+                episode.Season = season;
+
             DateTime firstAired;
             if (DateTime.TryParse(xmlElement.Element("FirstAired").Value, out firstAired))
                 episode.FirstAired = firstAired;
